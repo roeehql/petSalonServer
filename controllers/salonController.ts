@@ -68,11 +68,12 @@ export const getSalonList = (req: Request, res: Response) => {
   const salons = salonService.getSalon()
 
   if (salons) {
-    const salonData = salons.map((salon)=> {
+    const salonData = [...salons]
+    return res.status(StatusCodes.OK).send(createResponse(
+      salonData.map((salon)=> {
       salon.password = "password"
       return salon 
-    })
-    return res.status(StatusCodes.OK).send(createResponse(salonData));
+    })));
   } else {
     return res
       .status(StatusCodes.BAD_REQUEST)
